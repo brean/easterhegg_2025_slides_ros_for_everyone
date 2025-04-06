@@ -1,0 +1,14 @@
+% easterhegg style
+
+% colors for {{ mode }} mode
+{%- for color_name, color_val in colors[mode].items() %}
+\definecolor{{ '{' + color_name + '}'}}{RGB}{{ color_val}}
+{%- endfor %}
+
+\setbeamercolor{structure}{fg=primary, bg=background}
+\setbeamercolor{background canvas}{fg=foreground, bg=background}
+\setbeamercolor{normal text}{fg=foreground}
+\setbeamercolor{alerted text}{fg=foreground,bg=error}
+\setbeamercolor{block body alerted}{fg=foreground,bg=error}
+\setbeamercolor{block title}{fg=foreground,bg=bg-shade-three}
+\setbeamercolor{block body}{fg=foreground,bg=bg-shade-three}
