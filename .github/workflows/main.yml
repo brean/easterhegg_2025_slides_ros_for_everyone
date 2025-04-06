@@ -12,3 +12,8 @@ jobs:
           root_file: main.tex
           compiler: pdflatex
           args: -interaction=nonstopmode -shell-escape
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: main-pdf
+          path: main.pdf
