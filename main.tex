@@ -205,14 +205,44 @@ The docs for jazzy are at \url{https://docs.ros.org/en/jazzy/}
 
 \end{frame}
 
-\begin{frame}{Messages}{What is a topic?}
-  ROS Nodes communicate with \textbf{topics}.\\
-  A ROS node can \textbf{publish} data on a topic as defined Message.\\
-  Every node can \textbf{subscribe} data on a topic.\\
-  \question{The gifs on the ROS 2 website are confusing...}
+\begin{frame}{Communication}{ROS Topics}
+    Nodes can use \textbf{topics} to communicate. Use topics to send fast and repeating data \\\small (for example sensor readings). \normalsize
 
-  % I find the gifs confusing: https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html
+    \centering
+
+    \includegraphics[width=.5\textwidth]{./figures/topic.pdf}
+
+    \begin{itemize}
+      \item the teleop-node publishes a TwistStamped message on the \texttt{cmd\_vel} topic.
+      \item the motor controller-node subscribes to the \texttt{cmd\_vel} topic and receives it.
+      \item other nodes can also talk or listen to \texttt{cmd\_vel}!
+    \end{itemize}
 \end{frame}
+
+\begin{frame}{Communication}{ROS Services}
+
+    \centering
+
+    \includegraphics[width=.5\textwidth]{./figures/services.pdf}
+
+    \begin{itemize}
+      \item Topic-Problem: You don't know if your message got received.
+      \item ROS services force you to send feedback with your message!
+      \item Multiple nodes can call the same service, but only one node can provide one!
+    \end{itemize}
+
+    \question{Can we use messages for topics and services?}\\
+    Yes, if you look at the implementation its all just \textbf{Messages}
+\end{frame}
+
+% \begin{frame}{Messages}{What is a topic?}
+%   ROS Nodes communicate with \textbf{topics}.\\
+%   A ROS node can \textbf{publish} data on a topic as defined Message.\\
+%   Every node can \textbf{subscribe} data on a topic.\\
+%   \question{The gifs on the ROS 2 website are confusing...}
+
+%   % I find the gifs confusing: https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html
+% \end{frame}
 
 \begin{frame}{Communication}{ROS server}
   % Confusion \#6:
