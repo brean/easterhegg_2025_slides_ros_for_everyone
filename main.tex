@@ -13,8 +13,17 @@
 
 % for video
 \usepackage{multimedia}
+
+% for colors
 \usepackage{easter}
 \usepackage{xcolor}
+
+% for \st (strike through)
+\usepackage{soul}
+
+% for code
+\usepackage{listing}
+\usepackage{verbatim}
 
 \setbeamertemplate{blocks}[rounded]
 % \setbeamertemplate{blocks}[rounded]
@@ -34,6 +43,12 @@
   \vskip10pt
 }
 
+% numbered questions
+\newcounter{qno}
+\DeclareRobustCommand{\question}[1]{%
+   \refstepcounter{qno}%
+   \textcolor{secondary}{Question \theqno{}: #1 }}
+
 % bunnify itemize
 \setbeamertemplate{itemize item}{\includegraphics[height=.9em]{./figures/hare_head_darkmode.pdf}}
 
@@ -42,7 +57,7 @@
 \begin{frame}{}
     \centering
     \includegraphics[width=.7\textwidth]{figures/logo_easterhegg.png}\\
-    ROS for everyone!
+    ROS for \textcolor{secondary}{\st{hackers}} everyone!
     \vspace{1em}\\
     Andreas Bresser\\
     \tiny{
@@ -50,20 +65,18 @@
     \textit{\url{https://github.com/brean/}}}
 \end{frame}
 
-\begin{frame}{Why am I giving this talk?}
+\begin{frame}{I work with robots!}
         \centering
         \begin{columns}
-            \column{0.3\textwidth}
-                \movie[height=0.3\textheight, loop, autostart=true] {\includegraphics[height=0.3\textheight]{video/semosys_mobipick.png}}{video/semosys_mobipick.mp4}
+            \column{0.5\textwidth}
+                \movie[height=0.5\textheight, loop, autostart=true] {\includegraphics[height=0.5\textheight]{video/semosys_mobipick.png}}{video/semosys_mobipick.mp4}
 
-            \column{0.3\textwidth}
-                \movie[height=0.3\textheight, poster, loop, autostart=true] {\includegraphics[height=0.3\textheight]{video/samler_robot.png}}{video/samler_robot.mp4}
-            \column{0.3\textwidth}
-                \movie[height=0.3\textheight, poster, loop, autostart=true] {\includegraphics[height=0.3\textheight]{video/coyote.png}}{video/coyote.mp4}
+            \column{0.5\textwidth}
+                \movie[height=0.5\textheight, poster, loop, autostart=true] {\includegraphics[height=0.5\textheight]{video/samler_robot.png}}{video/samler_robot.mp4}
+
         \end{columns}
         \vspace{1.5em}
-        I work with robots!\\
-        \textit{(and I like to see more robots at Chaos \includegraphics[height=1em]{figures/hare_head_darkmode.pdf} events)}
+        \textit{(I like to see more robotics at Chaos \includegraphics[height=1em]{figures/hare_head_darkmode.pdf} events)}
 \end{frame}
 
 \begin{frame}{I love space robotics competitions!}
@@ -82,7 +95,7 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}{ROS for Everyone}{ROS on \textit{everything}?}
+\begin{frame}{ROS for Everyone}{\textit{Everything} will be robotics?}
   \centering
   \begin{minipage}{0.6\textwidth}
   \begin{block}{}
@@ -92,82 +105,160 @@
   \end{minipage}
 
   \vspace{1em}
-
-  Let us keep the robot ecosystems free and open.
+  % Especially humanoid robots are advancing lately, machines move out ot the labs
+  % Let us keep the robot ecosystems free and open.
+  Machines (literally) walk out of the labs - So everything will be ROS?
 
   % Robotics might be the next hype, humanoid robots getting impressive,
   % it is important to keep the free and open Robotics ecosystem free and open
 \end{frame}
 
+
+\begin{frame}{ROS for Everyone}{Who needs ROS}
+  \centering
+  % Confusion 1
+  \question{Do I need ROS to do Robotics?}\\
+  No. ROS should make the build of complex systems easier.
+\end{frame}
+
 % ROS intro
 
 \begin{frame}{Topology}{Topology of a Robot}
-    \begin{block}{The Robotics problem...}
-      \begin{columns}
-        \column{0.45\textwidth}
-          \includegraphics[width=6.6cm]{figures/topology.pdf}
-        \column{0.5\textwidth}
-          Distributed processes:
-          \begin{itemize}
-            \item Sensor data sampling
-            \item Data/signal processing
-            \item Decision making
-            \item Control signals $\rightarrow$ actuators
-          \end{itemize}
-      \end{columns}
-    \end{block}
-  \end{frame}
+  \begin{block}{The Robotics problem...}
+    \begin{columns}
+      \column{0.45\textwidth}
+        \includegraphics[width=6.6cm]{figures/topology.pdf}
+      \column{0.5\textwidth}
+        Distributed processes:
+        \begin{itemize}
+          \item Sensor data sampling
+          \item Data/signal processing
+          \item Decision making
+          \item Control signals $\rightarrow$ actuators
+        \end{itemize}
+    \end{columns}
+  \end{block}
+\end{frame}
 
-\begin{frame}{What is ROS}
-    \begin{block}{\textbf{Not} an Operating System but a \textbf{Middleware}}
+
+\begin{frame}{What is ROS}{Robot Operating System}
+  \question{Isn't the name confusing?}
+    \begin{block}{Yes, ROS is \textbf{not} an Operating System but a \textbf{Middleware}}
         \includegraphics[width=\textwidth]{figures/ros-equation.pdf}
     
         \hfill \tiny{Image source: \url{https://www.ros.org/blog/ecosystem/}}
       \end{block}
 \end{frame}
 
+
+\begin{frame}{ROS 2 vs ROS 1}{ROS 1 is still everywhere}
+%  Confusion \#1: 
+\question{What is catkin? Why doesn't the roslaunch command exist?}\\
+
+\begin{itemize}
+  \item ROS 1 had ros... commands (without space), ROS 2 has the \textbf{ros2} command
+  \item ROS 1 uses catkin ros 2 uses \textbf{colcon}
+\end{itemize}
+
+ROS 1 has its EOL in \textbf{May 2025}, the ros Wiki \url{https://wiki.ros.org/noetic/} is still linked everywhere!
+
+The docs for jazzy are at \url{https://docs.ros.org/en/jazzy/}
+\end{frame}
+
 \begin{frame}{Nodes}{What is a ROS Node?}
-    \textbf{Nodes are processes.}\\
-      A \textbf{node} is a small program that should be responsible for a single, module purpose. 
-      Examples of nodes:    
-      \begin{figure}[tbh!]
-          \centering
-        \includegraphics[width=.75\textwidth]{./figures/nodes.pdf}
-      \end{figure}
-      Nodes are normally written in Python or C++.
-    % https://docs.ros.org/en/foxy/Tutorials/Understanding-ROS2-Nodes.html
+  % Confusion \#3: 
+  \question{Is a ROS node different from any other program?}\\
+  No, a \textbf{node} is a small program that should be responsible for a single, module purpose.
+  It can be part of a \textbf{ROS package} but does not have to be.
+  \begin{figure}[tbh!]
+      \centering
+    \includegraphics[width=.75\textwidth]{./figures/nodes.pdf}
+  \end{figure}
+  Nodes are normally written in Python or C++.
+  % https://docs.ros.org/en/foxy/Tutorials/Understanding-ROS2-Nodes.html
 \end{frame}
   
-  \begin{frame}{Nodes}{What is a ROS Node?}
-    \textbf{Where are the nodes running?}\\
-      \begin{figure}[tbh!]
-        \centering
-        \includegraphics[width=.9\textwidth]{./figures/where_should_a_node_run.pdf}
-      \end{figure}
-  \end{frame}
+\begin{frame}{Nodes}{What is a ROS Node?}
+  % Confusion #4:
+  \question{Where are the ROS nodes running?}\\
+    \begin{figure}[tbh!]
+      \centering
+      \includegraphics[width=.9\textwidth]{./figures/where_should_a_node_run.pdf}
+    \end{figure}
+\end{frame}
 
 \begin{frame}{Nodes}{Where should a node run?}
-    % So your biggest problem is that you have all these different parts of a robot that need to exchange data with each other. This is exactly where ROS can help you. ROS 2 uses the "Data Distribution Service" or DDS for short. DDS manages the network communication between the ROS-nodes automatically.
-    \textbf{ROS only on the robot (without Notebook)}
-      \begin{figure}[tbh!]
-        \centering
-        \includegraphics[width=.9\textwidth]{./figures/ros_nodes_on_robots.pdf}
-      \end{figure}
-  \end{frame}
-  
-  \begin{frame}{Nodes}{Where should a node run?}
-    % So your biggest problem is that you have all these different parts of a robot that need to exchange data with each other. This is exactly where ROS can help you. ROS 2 uses the "Data Distribution Service" or DDS for short. DDS manages the network communication between the ROS-nodes automatically.
-    \textbf{ROS without a robot!}
-      \begin{figure}[tbh!]
-        \centering
-        \includegraphics[width=.9\textwidth]{./figures/ros_nodes_example_3.pdf}
-      \end{figure}
+  % So your biggest problem is that you have all these different parts of a robot that need to exchange data with each other. This is exactly where ROS can help you. ROS 2 uses the "Data Distribution Service" or DDS for short. DDS manages the network communication between the ROS-nodes automatically.
+  \textbf{ROS only on the robot (without Notebook)}
+    \begin{figure}[tbh!]
+      \centering
+      \includegraphics[width=.9\textwidth]{./figures/ros_nodes_on_robots.pdf}
+    \end{figure}
+\end{frame}
 
-  \end{frame}
+\begin{frame}{Nodes}{Where should a node run?}
+  \textbf{ROS without a robot!}
+  \begin{figure}[tbh!]
+    \centering
+    \includegraphics[width=.9\textwidth]{./figures/ros_nodes_example_3.pdf}
+  \end{figure}
 
+\end{frame}
 
+\begin{frame}{Messages}{What is a topic?}
+  ROS Nodes communicate with \textbf{topics}.\\
+  A ROS node can \textbf{publish} data on a topic as defined Message.\\
+  Every node can \textbf{subscribe} data on a topic.\\
+  \question{The gifs on the ROS 2 website are confusing...}
 
-\begin{frame}{Robotics for everyone}
+  % I find the gifs confusing: https://docs.ros.org/en/jazzy/Tutorials/Beginner-CLI-Tools/Understanding-ROS2-Topics/Understanding-ROS2-Topics.html
+\end{frame}
+
+\begin{frame}{Communication}{ROS server}
+  % Confusion \#6:
+  \question{How do ROS nodes connect?}\\
+  In ROS 1 we had a \textbf{rosmaster} you needed to start manually\\
+  In ROS 2 we have the \textbf{ros2 daemon}.\\
+  A Data Distribution Service (DDS) in the background makes sure everyone can connect.
+
+\end{frame}
+
+\begin{frame}{Communication}{ros2 daemon magic}
+  \begin{columns}
+    \column{0.6\textwidth}
+\question{Wait, EVERYONE in the network can connect to my robot, isn't that dangerous?}\\
+Yes! It gets scarry when you see ROS 2-messages of the 13 ton ARTER autonomous excavator when you want to control a small turtlebot.\\
+\tiny{That time it was only a student playing prerecoded ros-data, you can not control ARTER from the DFKI intranet.}
+  \column{0.4\textwidth}
+      \movie[height=0.4\textheight, loop, autostart=true] {\includegraphics[height=0.4\textheight]{video/arter.png}}{video/arter.mp4}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile=singleslide]{Communication}{Secure communication}
+1. Configure who's allowed to connect.
+
+\begin{verbatim}
+#export ROS_LOCALHOST_ONLY=1
+#export ROS_AUTOMATIC_DISCOVERY_RANGE=LOCALHOST
+\end{verbatim}
+
+2. Use \textbf{ROS Security} for authentication.\\
+See \url{https://docs.ros.org/en/jazzy/Tutorials/Advanced/Security/Introducing-ros2-security.html}
+\end{frame}
+
+\begin{frame}{Robotics for Hackers}{Robots are not very secure.}
+  \begin{itemize}
+    \item Some manufacturer update software very irregular
+    \item Very complex software stacks
+    \item Software need to be extra safe
+    \item Fluctuation of people/companies
+    \item Your shiny new robot might come with a backdoor\\ (e.g. \url{https://think-awesome.com/download_unitree_report} by Bin4ry)
+  \end{itemize}
+  $\rightarrow$ Robots often get their own networks without internet.\\
+  % \small{(anecdote: Time synchronization.)}
+\end{frame}
+
+\begin{frame}{Robotics for AI enthusiasts}
     \centering
       Robotics gets complex quickly!\\
       \pause
@@ -184,20 +275,19 @@
   \vspace{1em}
   $\Rightarrow$ ROS is a good start but we need more\\tools to make it usable for everyone!
 \end{frame}
-  
 
 \begin{frame}{Configure robots}
     \begin{minipage}{0.45\textwidth}
         \begin{block}{}
             1. Select components\\
-            \tiny $\rightarrow$ This should also define the \textbf{capabilties} of the system.
+            \tiny $\rightarrow$ This should also define the \textbf{capabilities} of the system.
         \end{block}
         \begin{minipage}{0.27\textwidth}
             \includegraphics[height=1.2cm]{figures/rplidar.png}\\
             \small
             RPLidar
         \end{minipage} + \begin{minipage}{0.27\textwidth}
-            \includegraphics[height=1.2cm]{figures/kobuki_base.png}\\
+            \includegraphics[height=1.2cm]{figures/kobuki_base.pdf}\\
             \small
             Kobuki Base
         \end{minipage} + \begin{minipage}{0.27\textwidth}
@@ -223,7 +313,7 @@
     \begin{minipage}{0.45\textwidth}
     \begin{block}{}
         3. Define some behavior\\
-        \tiny $\rightarrow$ AI: simple Logic all the way to Schwarm intelligence.
+        \tiny $\rightarrow$ AI: simple Logic all the way to swarm intelligence.
     \end{block}
         \includegraphics[height=5cm]{figures/planning_graph.pdf}\\
         \tiny
@@ -254,6 +344,13 @@
     \url{https://robotik.dfki-bremen.de}
 \end{frame}
 
+\begin{frame}{Workshop}{YOUR content and questions}
+\begin{itemize}
+  \item Do you have an idea that needs a (mobile) robot?
+  \item Do you already have one you like to show?
+  \item Do you like to discuss how robots effect us in the near future?
+\end{itemize}
+\end{frame}
 % \begin{frame}{My next talk}
 %   \centering
 %   Chaos Communication Congress 2025
